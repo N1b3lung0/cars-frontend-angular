@@ -24,6 +24,7 @@ import { HeaderComponent } from './common/header/header.component';
 import { FooterComponent } from './common/footer/footer.component';
 import { CarsComponent } from './cars/cars.component';
 import { CarComponent } from './car/car.component';
+import { FormComponent } from './cars/form.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { CarComponent } from './car/car.component';
     FooterComponent,
     CarsComponent,
     CarComponent,
+    FormComponent,
   ],
   imports: [
     BrowserModule,
