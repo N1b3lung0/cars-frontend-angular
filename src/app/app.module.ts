@@ -2,7 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: '', redirectTo: '/cars', pathMatch: 'full' },
@@ -26,7 +27,6 @@ import { CarsComponent } from './cars/cars.component';
 import { CarComponent } from './car/car.component';
 import { FormComponent } from './cars/form.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +39,7 @@ import { FormComponent } from './cars/form.component';
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
+    FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     MatCardModule,
