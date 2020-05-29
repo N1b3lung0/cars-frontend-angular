@@ -1,1 +1,18 @@
-<p>form works!</p>
+<div class="example-container">
+    <form class="example-form" (ngSubmit)="create()">
+        <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput type="text" placeholder="A3" [(ngModel)]="car.name" name="name">
+            <button mat-button *ngIf="car.name" matSuffix mat-icon-button aria-label="Clear" (click)="car.name=''">
+              <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
+            <mat-label>Brand</mat-label>
+            <input matInput placeholder="Audi" [(ngModel)]="car.brand" name="brand">
+        </mat-form-field>
+        <br>
+        <button mat-raised-button>Create</button>
+    </form>
+</div>
