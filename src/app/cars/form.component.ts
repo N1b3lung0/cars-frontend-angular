@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 export class FormComponent implements OnInit {
 
   public car: Car = new Car();
+  public errors: string[];
 
   constructor(private carService: CarService, 
               private router: Router,
@@ -32,19 +33,21 @@ export class FormComponent implements OnInit {
 
   create(): void {
     this.carService.create(this.car).subscribe(
-      response => {
+      json => {
         this.router.navigate(['/cars'])
-        Swal.fire('New car', `Car ${ this.car.name } created successfully`, 'success')
-      }
+        Swal.fire(`${ json.car.name }`, `${ json.message }`, 'success')
+      },
+      err => this.errors = err.error.errors as string[]
     )
   }
 
   update(): void {
     this.carService.update(this.car).subscribe(
-      response => {
+      json => {
         this.router.navigate(['/cars'])
-        Swal.fire('Car updated', `Car ${ this.car.name } updated succesfully`, 'success')
-      }
+        Swal.fire(`${ json.car.name }`, `${ json.message }`, 'success')
+      },
+      err => this.errors = err.error.errors as string[]
     )
   }
 

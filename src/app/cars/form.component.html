@@ -1,21 +1,33 @@
 <div class="example-container">
-    <form class="example-form">
-        <mat-form-field appearance="fill">
+    <mat-list *ngIf="errors?.length > 0">
+        <mat-list-item *ngFor="let err of errors"> {{ err }} </mat-list-item>
+    </mat-list>
+    <form class="example-form" #carForm="ngForm">
+        <mat-form-field class="example-full-width">
             <mat-label>Name</mat-label>
-            <input matInput type="text" placeholder="A3" [(ngModel)]="car.name" name="name">
-            <button mat-button *ngIf="car.name" matSuffix mat-icon-button aria-label="Clear" (click)="car.name=''">
-              <mat-icon>close</mat-icon>
-            </button>
+            <input matInput type="text" placeholder="A3" [(ngModel)]="car.name" name="name" required minlength="4" #name="ngModel">
+            <mat-error *ngIf="name.invalid && (name.dirty || name.touched) && name.errors.minlength">
+                Please enter a valid name (min 4 characters)
+            </mat-error>
+            <mat-error *ngIf="name.invalid && (name.dirty || name.touched) && name.errors.required">
+                Name is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
         <br>
-        <mat-form-field appearance="fill">
+        <mat-form-field class="example-full-width">
             <mat-label>Brand</mat-label>
-            <input matInput placeholder="Audi" [(ngModel)]="car.brand" name="brand">
+            <input matInput type="text" placeholder="Audi" [(ngModel)]="car.brand" name="brand" required minlength="3" #brand="ngModel">
+            <mat-error *ngIf="brand.invalid && (brand.dirty || brand.touched) && brand.errors.minlength">
+                Please enter a valid brand (min 3 characters)
+            </mat-error>
+            <mat-error *ngIf="brand.invalid && (brand.dirty || brand.touched) && brand.errors.required">
+                Brand is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
         <br>
-        <button mat-raised-button (click)="create()" *ngIf="!car.id else elseBlock">Create</button>
+        <button mat-raised-button (click)="create()" *ngIf="!car.id else elseBlock" [disabled]="!carForm.form.valid">Create</button>
         <ng-template #elseBlock>
-            <button mat-raised-button (click)="update()">Edit</button>
+            <button mat-raised-button (click)="update()" [disabled]="!carForm.form.valid">Edit</button>
         </ng-template>
     </form>
 </div>
