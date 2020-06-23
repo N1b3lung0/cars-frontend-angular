@@ -17,8 +17,8 @@ export class CarService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getCars(): Observable<Car[]> {
-    return this.http.get<Car[]>(this.urlEndPoint);
+  getCars(page: number): Observable<any> {
+    return this.http.get(this.urlEndPoint + '/page/' + page);
   }
 
   create(car: Car) : Observable<any> {

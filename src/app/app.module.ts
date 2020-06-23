@@ -12,6 +12,7 @@ registerLocaleData(localeES, 'es');
 const routes: Routes = [
   { path: '', redirectTo: '/cars', pathMatch: 'full' },
   { path: 'cars', component: CarsComponent },
+  { path: 'cars/page/:page', component: CarsComponent },
   { path: 'cars/form', component: FormComponent },
   { path: 'cars/form/:id', component: FormComponent },
   { path: 'car', component: CarComponent },
@@ -28,6 +29,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 // Components
 import { AppComponent } from './app.component';
@@ -36,6 +39,7 @@ import { FooterComponent } from './common/footer/footer.component';
 import { CarsComponent } from './cars/cars.component';
 import { CarComponent } from './car/car.component';
 import { FormComponent } from './cars/form.component';
+import { PaginatorComponent } from './paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +49,7 @@ import { FormComponent } from './cars/form.component';
     CarsComponent,
     CarComponent,
     FormComponent,
+    PaginatorComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,7 +63,9 @@ import { FormComponent } from './cars/form.component';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatDatepickerModule,
+    MatMomentDateModule
   ],
   exports: [
     RouterModule

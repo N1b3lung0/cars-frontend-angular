@@ -1,0 +1,22 @@
+<mat-list role="list" *ngIf="pages?.length > 0" class="pagination">
+    <mat-list-item role="listitem">
+        <button mat-raised-button *ngIf="paginator.number == 0" disabled>&laquo;</button>
+        <a *ngIf="paginator.number > 0" mat-raised-button [routerLink]="['/cars/page', paginator.number - 1]" routerLinkActive="router-link-active">&laquo;</a>
+    </mat-list-item>
+    <mat-list-item role="listitem">
+        <button mat-raised-button *ngIf="paginator.number == 0" disabled>First</button>
+        <a *ngIf="paginator.number > 0" mat-raised-button [routerLink]="['/cars/page', 0]" routerLinkActive="router-link-active">First</a>
+    </mat-list-item>
+    <mat-list-item role="listitem" *ngFor="let page of pages">
+        <button mat-raised-button *ngIf="page - 1 == paginator.number" color="accent">{{ page }}</button>
+        <a *ngIf="page - 1 != paginator.number" mat-raised-button [routerLink]="['/cars/page', page - 1]" routerLinkActive="router-link-active">{{ page }}</a>
+    </mat-list-item>
+    <mat-list-item role="listitem">
+        <button mat-raised-button *ngIf="paginator.number == paginator.totalPages - 1" disabled>Last</button>
+        <a *ngIf="paginator.number < paginator.totalPages - 1" mat-raised-button [routerLink]="['/cars/page', paginator.totalPages - 1]" routerLinkActive="router-link-active">Last</a>
+    </mat-list-item>
+    <mat-list-item role="listitem">
+        <button mat-raised-button *ngIf="paginator.number == paginator.totalPages - 1" disabled>&raquo;</button>
+        <a *ngIf="paginator.number < paginator.totalPages - 1" mat-raised-button [routerLink]="['/cars/page', paginator.number + 1]" routerLinkActive="router-link-active">&raquo;</a>
+    </mat-list-item>
+</mat-list>

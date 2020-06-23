@@ -25,6 +25,16 @@
             </mat-error>
         </mat-form-field>
         <br>
+        <mat-form-field class="example-full-width">
+            <mat-label>Create At</mat-label>
+            <input matInput [matDatepicker]="pickerCreateAt" [(ngModel)]="car.createAt" name="createAt" required #createAt="ngModel">
+            <mat-datepicker-toggle matSuffix [for]="pickerCreateAt"></mat-datepicker-toggle>
+            <mat-datepicker #pickerCreateAt></mat-datepicker>
+            <mat-error *ngIf="createAt.invalid && (createAt.dirty || createAt.touched) && createAt.errors.required">
+                Create At is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <br>
         <button mat-raised-button (click)="create()" *ngIf="!car.id else elseBlock" [disabled]="!carForm.form.valid">Create</button>
         <ng-template #elseBlock>
             <button mat-raised-button (click)="update()" [disabled]="!carForm.form.valid">Edit</button>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Car } from '../car/car';
 import { CarService } from './car.service';
 import Swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-cars',
@@ -11,13 +12,20 @@ import Swal from 'sweetalert2';
 export class CarsComponent implements OnInit {
 
   cars: Car[];
+  paginator: any;
 
-  constructor(private carService: CarService) { }
+  constructor(private carService: CarService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.carService.getCars().subscribe(
-      cars => this.cars = cars
-    );
+    this.activatedRoute.paramMap.subscribe( params => {
+      let page: number = +params.get('page');
+      (!page) ? page = 0 : null
+      this.carService.getCars(page).subscribe(
+        response => {
+          this.cars = response.content as Car[]
+          this.paginator = response;
+        });
+      })
   }
 
   delete(car: Car): void {
