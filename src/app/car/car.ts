@@ -3,4 +3,5 @@ export class Car {
   name: string;
   brand: string;
   createAt: string;
+  photo: string;
 }

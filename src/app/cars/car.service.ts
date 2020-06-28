@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Car } from '../car/car';
 import { Observable, of, throwError } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest, HttpEvent } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -54,5 +54,16 @@ export class CarService {
       Swal.fire(e.error.message, e.error.error, 'error');
       return throwError(e);
     }))
+  }
+
+  uploadPhoto(file: File, id): Observable<HttpEvent<{}>> {
+    let formData = new FormData();
+    formData.append("file", file);
+    formData.append("id", id);
+
+    const req = new HttpRequest('POST', `${this.urlEndPoint}/upload`, formData, {
+      reportProgress: true
+    })
+    return this.http.request(req);
   }
 }
