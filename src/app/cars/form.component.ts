@@ -3,6 +3,7 @@ import { Car } from '../car/car';
 import { CarService } from './car.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-form',
@@ -13,6 +14,8 @@ export class FormComponent implements OnInit {
 
   public car: Car = new Car();
   public errors: string[];
+  public selectedPhoto: File;
+  public progress: number = 0;
 
   constructor(private carService: CarService, 
               private router: Router,
@@ -49,6 +52,27 @@ export class FormComponent implements OnInit {
       },
       err => this.errors = err.error.errors as string[]
     )
+  }
+
+  selectPhoto(event) {
+    this.selectedPhoto = event.target.files[0];
+    this.progress = 0;
+    if (this.selectedPhoto.type.indexOf('image') < 0) {
+      Swal.fire('Error', 'Please, select a correct file. It must be an image', 'error');
+      this.selectedPhoto = null;
+    }
+  }
+
+  uploadPhoto() {
+    this.carService.uploadPhoto(this.selectedPhoto, this.car.id).subscribe( event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        this.progress = Math.round((event.loaded / event.total) * 100);
+      } else if (event.type === HttpEventType.Response) {
+        let response: any = event.body;
+        this.car = response.car as Car;
+        Swal.fire('Photo uploaded', response.message, 'success');
+      }
+    })
   }
 
 }

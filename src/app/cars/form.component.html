@@ -1,43 +1,55 @@
-<div class="example-container">
-    <mat-list *ngIf="errors?.length > 0">
-        <mat-list-item *ngFor="let err of errors"> {{ err }} </mat-list-item>
-    </mat-list>
-    <form class="example-form" #carForm="ngForm">
-        <mat-form-field class="example-full-width">
-            <mat-label>Name</mat-label>
-            <input matInput type="text" placeholder="A3" [(ngModel)]="car.name" name="name" required minlength="4" #name="ngModel">
-            <mat-error *ngIf="name.invalid && (name.dirty || name.touched) && name.errors.minlength">
-                Please enter a valid name (min 4 characters)
-            </mat-error>
-            <mat-error *ngIf="name.invalid && (name.dirty || name.touched) && name.errors.required">
-                Name is <strong>required</strong>
-            </mat-error>
-        </mat-form-field>
+<div class="detail-form">
+    <div class="example-container">
+        <img *ngIf="car?.photo" src="http://localhost:8080/cars/uploads/img/{{ car.photo }}" alt="{{ car.photo }}">
         <br>
-        <mat-form-field class="example-full-width">
-            <mat-label>Brand</mat-label>
-            <input matInput type="text" placeholder="Audi" [(ngModel)]="car.brand" name="brand" required minlength="3" #brand="ngModel">
-            <mat-error *ngIf="brand.invalid && (brand.dirty || brand.touched) && brand.errors.minlength">
-                Please enter a valid brand (min 3 characters)
-            </mat-error>
-            <mat-error *ngIf="brand.invalid && (brand.dirty || brand.touched) && brand.errors.required">
-                Brand is <strong>required</strong>
-            </mat-error>
+        <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>Photo</mat-label>
+            <ngx-mat-file-input (change)="selectPhoto($event)" placeholder="Add a photo"></ngx-mat-file-input>
+            <mat-progress-bar *ngIf="this.progress > 0" mode="determinate" value="this.progress" color="warn"></mat-progress-bar>
         </mat-form-field>
-        <br>
-        <mat-form-field class="example-full-width">
-            <mat-label>Create At</mat-label>
-            <input matInput [matDatepicker]="pickerCreateAt" [(ngModel)]="car.createAt" name="createAt" required #createAt="ngModel">
-            <mat-datepicker-toggle matSuffix [for]="pickerCreateAt"></mat-datepicker-toggle>
-            <mat-datepicker #pickerCreateAt></mat-datepicker>
-            <mat-error *ngIf="createAt.invalid && (createAt.dirty || createAt.touched) && createAt.errors.required">
-                Create At is <strong>required</strong>
-            </mat-error>
-        </mat-form-field>
-        <br>
-        <button mat-raised-button (click)="create()" *ngIf="!car.id else elseBlock" [disabled]="!carForm.form.valid">Create</button>
-        <ng-template #elseBlock>
-            <button mat-raised-button (click)="update()" [disabled]="!carForm.form.valid">Edit</button>
-        </ng-template>
-    </form>
+        <button mat-raised-button (click)="uploadPhoto()" [disabled]="!this.selectedPhoto">Upload</button>
+    </div>
+    <div class="example-container">
+        <mat-list *ngIf="errors?.length > 0">
+            <mat-list-item *ngFor="let err of errors"> {{ err }} </mat-list-item>
+        </mat-list>
+        <form class="example-form" #carForm="ngForm">
+            <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Name</mat-label>
+                <input matInput type="text" placeholder="A3" [(ngModel)]="car.name" name="name" required minlength="4" #name="ngModel">
+                <mat-error *ngIf="name.invalid && (name.dirty || name.touched) && name.errors.minlength">
+                    Please enter a valid name (min 4 characters)
+                </mat-error>
+                <mat-error *ngIf="name.invalid && (name.dirty || name.touched) && name.errors.required">
+                    Name is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Brand</mat-label>
+                <input matInput type="text" placeholder="Audi" [(ngModel)]="car.brand" name="brand" required minlength="3" #brand="ngModel">
+                <mat-error *ngIf="brand.invalid && (brand.dirty || brand.touched) && brand.errors.minlength">
+                    Please enter a valid brand (min 3 characters)
+                </mat-error>
+                <mat-error *ngIf="brand.invalid && (brand.dirty || brand.touched) && brand.errors.required">
+                    Brand is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Create At</mat-label>
+                <input matInput [matDatepicker]="pickerCreateAt" [(ngModel)]="car.createAt" name="createAt" required #createAt="ngModel">
+                <mat-datepicker-toggle matSuffix [for]="pickerCreateAt"></mat-datepicker-toggle>
+                <mat-datepicker #pickerCreateAt></mat-datepicker>
+                <mat-error *ngIf="createAt.invalid && (createAt.dirty || createAt.touched) && createAt.errors.required">
+                    Create At is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <br>
+            <button mat-raised-button (click)="create()" *ngIf="!car.id else elseBlock" [disabled]="!carForm.form.valid">Create</button>
+            <ng-template #elseBlock>
+                <button mat-raised-button (click)="update()" [disabled]="!carForm.form.valid">Edit</button>
+            </ng-template>
+        </form>
+    </div>
 </div>
