@@ -1,5 +1,6 @@
 .example-card {
-    max-width: 400px;
+    width: 300px;
+    margin: 0.5em;
 }
 
 .example-header-image {
@@ -9,4 +10,12 @@
 
 .card-list {
     display: flex;
+}
+
+img {
+    object-fit: cover;
+    width: 300px;
+    height: 300px;
+    display: block;
+    margin: 0;
 }
