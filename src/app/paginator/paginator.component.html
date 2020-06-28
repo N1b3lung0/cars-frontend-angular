@@ -8,7 +8,7 @@
         <a *ngIf="paginator.number > 0" mat-raised-button [routerLink]="['/cars/page', 0]" routerLinkActive="router-link-active">First</a>
     </mat-list-item>
     <mat-list-item role="listitem" *ngFor="let page of pages">
-        <button mat-raised-button *ngIf="page - 1 == paginator.number" color="accent">{{ page }}</button>
+        <button mat-raised-button *ngIf="page - 1 == paginator.number" color="warn">{{ page }}</button>
         <a *ngIf="page - 1 != paginator.number" mat-raised-button [routerLink]="['/cars/page', page - 1]" routerLinkActive="router-link-active">{{ page }}</a>
     </mat-list-item>
     <mat-list-item role="listitem">
