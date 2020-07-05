@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders, HttpRequest, HttpEvent } from '@angular/common
 import { catchError, map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { Region } from '../car/region';
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +22,9 @@ export class CarService {
     return this.http.get(this.urlEndPoint + '/page/' + page);
   }
 
-  create(car: Car) : Observable<any> {
+  create(car: Car): Observable<any> {
     return this.http.post<any>(this.urlEndPoint, car, { headers: this.httpHeaders }).pipe( catchError( e => {
-      if (e.status == 400) {
+      if (e.status === 400) {
         return throwError(e);
       }
       Swal.fire(e.error.message, e.error.error, 'error');
@@ -34,14 +35,14 @@ export class CarService {
   getCar(id: number): Observable<Car> {
     return this.http.get<Car>(`${ this.urlEndPoint }/${ id }`, { headers: this.httpHeaders }).pipe( catchError( e => {
       this.router.navigate(['/cars']);
-      Swal.fire("Error trying to edit", e.error.message, 'error')
+      Swal.fire('Error trying to edit', e.error.message, 'error');
       return throwError(e);
     }))
   }
 
   update(car: Car): Observable<any> {
     return this.http.put<any>(`${ this.urlEndPoint }/${ car.id }`, car, { headers: this.httpHeaders }).pipe( catchError( e => {
-      if (e.status == 400) {
+      if (e.status === 400) {
         return throwError(e);
       }
       Swal.fire(e.error.message, e.error.error, 'error');
@@ -57,13 +58,17 @@ export class CarService {
   }
 
   uploadPhoto(file: File, id): Observable<HttpEvent<{}>> {
-    let formData = new FormData();
-    formData.append("file", file);
-    formData.append("id", id);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('id', id);
 
     const req = new HttpRequest('POST', `${this.urlEndPoint}/upload`, formData, {
       reportProgress: true
-    })
+    });
     return this.http.request(req);
+  }
+
+  getRegions(): Observable<Region[]> {
+    return this.http.get<Region[]>(this.urlEndPoint + '/regions');
   }
 }

@@ -37,6 +37,15 @@
             </mat-form-field>
             <br>
             <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Region</mat-label>
+                <mat-select [compareWith]="compareRegion" [(ngModel)]="car.region" name="region">
+                    <mat-option *ngFor="let region of regions" [value]="region">
+                        {{ region.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline" class="example-full-width">
                 <mat-label>Create At</mat-label>
                 <input matInput [matDatepicker]="pickerCreateAt" [(ngModel)]="car.createAt" name="createAt" required #createAt="ngModel">
                 <mat-datepicker-toggle matSuffix [for]="pickerCreateAt"></mat-datepicker-toggle>
