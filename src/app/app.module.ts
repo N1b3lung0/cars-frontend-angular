@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: 'cars/form', component: FormComponent },
   { path: 'cars/form/:id', component: FormComponent },
   { path: 'car', component: CarComponent },
+  { path: 'login', component: LoginComponent },
 ];
 
 // Services
@@ -44,6 +45,7 @@ import { CarsComponent } from './cars/cars.component';
 import { CarComponent } from './car/car.component';
 import { FormComponent } from './cars/form.component';
 import { PaginatorComponent } from './paginator/paginator.component';
+import { LoginComponent } from './users/login.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,7 @@ import { PaginatorComponent } from './paginator/paginator.component';
     CarComponent,
     FormComponent,
     PaginatorComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

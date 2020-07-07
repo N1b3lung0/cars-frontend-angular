@@ -18,43 +18,63 @@ export class CarService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  isNotAuthorized(e): boolean {
+    if (e.status === 401 || e.status === 403) {
+      this.router.navigate(['/login']);
+      return true;
+    }
+    return false;
+  }
+
   getCars(page: number): Observable<any> {
     return this.http.get(this.urlEndPoint + '/page/' + page);
   }
 
   create(car: Car): Observable<any> {
     return this.http.post<any>(this.urlEndPoint, car, { headers: this.httpHeaders }).pipe( catchError( e => {
+      if (this.isNotAuthorized(e)) {
+        return throwError(e);
+      }
       if (e.status === 400) {
         return throwError(e);
       }
       Swal.fire(e.error.message, e.error.error, 'error');
       return throwError(e);
-    }))
+    }));
   }
 
   getCar(id: number): Observable<Car> {
     return this.http.get<Car>(`${ this.urlEndPoint }/${ id }`, { headers: this.httpHeaders }).pipe( catchError( e => {
+      if (this.isNotAuthorized(e)) {
+        return throwError(e);
+      }
       this.router.navigate(['/cars']);
       Swal.fire('Error trying to edit', e.error.message, 'error');
       return throwError(e);
-    }))
+    }));
   }
 
   update(car: Car): Observable<any> {
     return this.http.put<any>(`${ this.urlEndPoint }/${ car.id }`, car, { headers: this.httpHeaders }).pipe( catchError( e => {
+      if (this.isNotAuthorized(e)) {
+        return throwError(e);
+      }
       if (e.status === 400) {
         return throwError(e);
       }
       Swal.fire(e.error.message, e.error.error, 'error');
       return throwError(e);
-    }))
+    }));
   }
 
   delete(id: number): Observable<Car> {
     return this.http.delete<Car>(`${ this.urlEndPoint }/${ id }`, { headers: this.httpHeaders }).pipe( catchError( e => {
+      if (this.isNotAuthorized(e)) {
+        return throwError(e);
+      }
       Swal.fire(e.error.message, e.error.error, 'error');
       return throwError(e);
-    }))
+    }));
   }
 
   uploadPhoto(file: File, id): Observable<HttpEvent<{}>> {
@@ -65,10 +85,16 @@ export class CarService {
     const req = new HttpRequest('POST', `${this.urlEndPoint}/upload`, formData, {
       reportProgress: true
     });
-    return this.http.request(req);
+    return this.http.request(req).pipe(catchError( e => {
+      this.isNotAuthorized(e);
+      return throwError(e);
+    }));
   }
 
   getRegions(): Observable<Region[]> {
-    return this.http.get<Region[]>(this.urlEndPoint + '/regions');
+    return this.http.get<Region[]>(this.urlEndPoint + '/regions').pipe(catchError( e => {
+      this.isNotAuthorized(e);
+      return throwError(e);
+    }));
   }
 }
