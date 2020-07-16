@@ -2,8 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { AuthGuard } from './users/guards/auth.guard';
+import { RoleGuard } from './users/guards/role.guard';
+import { TokenInterceptor } from './users/interceptors/token.interceptor';
+import { AuthInterceptor } from './users/interceptors/auth.interceptor';
 
 import { registerLocaleData } from '@angular/common';
 import localeES from '@angular/common/locales/es';
@@ -13,8 +17,8 @@ const routes: Routes = [
   { path: '', redirectTo: '/cars', pathMatch: 'full' },
   { path: 'cars', component: CarsComponent },
   { path: 'cars/page/:page', component: CarsComponent },
-  { path: 'cars/form', component: FormComponent },
-  { path: 'cars/form/:id', component: FormComponent },
+  { path: 'cars/form', component: FormComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } },
+  { path: 'cars/form/:id', component: FormComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } },
   { path: 'car', component: CarComponent },
   { path: 'login', component: LoginComponent },
 ];
@@ -83,7 +87,9 @@ import { LoginComponent } from './users/login.component';
   ],
   providers: [
     CarService,
-    { provide: LOCALE_ID, useValue: 'es' }
+    { provide: LOCALE_ID, useValue: 'es' },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
